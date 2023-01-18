@@ -1,27 +1,26 @@
-import statisticsData from '../data/stats-info.json';
-import userInfo from '../data/user-info.json';
-import friendsArray from '../data/friends-info.json';
-import transactions from '../data/transactions-info.json';
-import Profile from './Profile/Profile.jsx';
-import SectionStatistics from './SectionStatistics/SectionStatistics.jsx';
-import FriendList from './FriendList/FriendList.jsx';
-import TransactionHistory from './TransactionHistory/TransactionHistory.jsx';
+import { Profile } from './Profile/Profile';
+import { Statistics } from './Statistics/Statistics';
+import { FriendList } from './FriendList/FriendList';
+import { TransactionHistory } from './TransactionHistory/TransactionHistory';
+import user from '../data/user';
+import data from '../data/data';
+import friends from '../data/friends';
+import transactions from '../data/transactions';
 
 export const App = () => {
+  const { username, tag, location, avatar, stats } = user;
   return (
-    <>
+    <div>
       <Profile
-        userName={userInfo.username}
-        tag={userInfo.tag}
-        location={userInfo.location}
-        avatar={userInfo.avatar}
-        followers={userInfo.stats.followers}
-        views={userInfo.stats.views}
-        likes={userInfo.stats.likes}
+        username={username}
+        tag={tag}
+        location={location}
+        avatar={avatar}
+        stats={stats}
       />
-      <SectionStatistics title="Upload stats" stats={statisticsData} />
-      <FriendList friendsArray={friendsArray} />
-      <TransactionHistory transactions={transactions} />
-    </>
+      <Statistics title="Upload stats" stats={data} />
+      <FriendList friends={friends} />
+      <TransactionHistory items={transactions} />;
+    </div>
   );
 };

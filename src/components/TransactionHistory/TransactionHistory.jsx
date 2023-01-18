@@ -1,41 +1,35 @@
-import propTypes from 'prop-types';
-import TransactionItem from './TransactionItem.jsx';
-import clsx from 'clsx';
+import PropTypes from 'prop-types';
 import css from './TransactionHistory.module.css';
+import { Transaction } from './Transaction/Transaction';
 
-const TransactionHistory = ({ transactions }) => (
-  <table className={clsx(css['transaction-history'])}>
-    <thead>
-      <tr className={clsx(css['header'])}>
-        <th>Type</th>
-        <th>Amount</th>
-        <th>Currency</th>
-      </tr>
-    </thead>
-    <tbody>
-      {transactions.map(({ id, type, amount, currency }) => {
-        return (
-          <TransactionItem
-            key={id}
-            type={type}
-            amount={amount}
-            currency={currency}
-          />
-        );
-      })}
-    </tbody>
-  </table>
-);
-
-TransactionHistory.propTypes = {
-  transactions: propTypes.arrayOf(propTypes.object).isRequired,
+export const TransactionHistory = ({ items = [] }) => {
+  return (
+    <>
+      <table className={css.transactionHistory}>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Currency</th>
+          </tr>
+        </thead>
+        <tbody>
+          {items.map(({ id, ...props }) => (
+            <Transaction key={id} {...props} />
+          ))}
+        </tbody>
+      </table>
+    </>
+  );
 };
 
-export default TransactionHistory;
-
-//   {
-//     "id": "7b119d71-42e6-4c42-a141-6818b07bb9ff",
-//     "type": "invoice",
-//     "amount": "275.07",
-//     "currency": "AWG"
-//   },
+TransactionHistory.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      amount: PropTypes.string.isRequired,
+      currency: PropTypes.string.isRequired,
+    })
+  ),
+};
